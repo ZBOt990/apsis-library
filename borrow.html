@@ -1,0 +1,114 @@
+
+<html>
+	<head>
+		<title> Borrowed Books</title>
+		<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+		<link type="text/css" href="css/bootstrap-table.css" rel="stylesheet">
+		<link type="text/css" href="css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="./borrow.css">
+</head>
+ 
+<body>
+
+<div class="container">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>
+				Borrowed Books
+			</h1>
+		</div>
+
+
+		  
+			 	
+			 	
+			 </div>
+						 
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-12">
+					 
+						<table 	id="table"
+			                	data-show-columns="true"
+ 				                data-height="460">
+						</table>
+					</div>
+				</div>
+			</div>				
+		</div>
+
+	</div>
+</div>
+  		
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-table.js"></script>
+
+
+<script type="text/javascript">
+	
+    var $table = $('#table');
+$table.bootstrapTable({
+    url: 'book-list.php',
+    search: true,
+    pagination: true,
+    buttonsClass: 'primary',
+    showFooter: true,
+    minimumCountColumns: 2,
+    columns: [
+        {
+            field: 'num',
+            title: '#',
+            sortable: true,
+        },
+        {
+            field: 'first',
+            title: 'Book Title',
+            sortable: true,
+        },
+        {
+            field: 'second',
+            title: 'Borrower',
+            sortable: true,
+        },
+        {
+            field: 'third',
+            title: 'Issue Date',
+            sortable: true,
+        },
+        {
+            field: 'fourth',
+            title: 'Action',
+            sortable: true,
+            formatter: function(value, row, index) {
+                return '<button class="btn btn-danger delete-btn" data-id="' + row.id + '">Delete</button>';
+            },
+            events: {
+                'click .delete-btn': function(e, value, row, index) {
+                    var id = row.id;
+                    $.ajax({
+                        type: 'POST',
+                        url: 'delete.php',
+                        data: {id: id},
+                        success: function(data) {
+                            $table.bootstrapTable('remove', {
+                                field: 'id',
+                                values: [id]
+                            });
+                        }
+                    });
+                }
+            }
+        }
+    ]
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
